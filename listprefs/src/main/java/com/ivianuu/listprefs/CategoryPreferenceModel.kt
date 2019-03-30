@@ -16,26 +16,18 @@
 
 package com.ivianuu.listprefs
 
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
+
 
 /**
  * A category preference
  */
-@Model open class CategoryPreferenceModel : PreferenceModel() {
+open class CategoryPreferenceModel : PreferenceModel() {
 
     init {
         clickable = false
         layoutRes = R.layout.item_preference_category
     }
 
-}
-
-inline fun PreferenceModelController.categoryPreference(
-    block: CategoryPreferenceModel.() -> Unit
-): CategoryPreferenceModel {
-    return (this as ModelController).categoryPreference {
-        context(this@categoryPreference.context)
-        block.invoke(this)
-    }
+    companion object : ListModelFactory<CategoryPreferenceModel>(::CategoryPreferenceModel)
 }

@@ -16,16 +16,15 @@
 
 package com.ivianuu.listprefs
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.afollestad.materialdialogs.MaterialDialog
-import com.ivianuu.list.annotations.Model
+
 
 /**
  * A dialog preference
  */
-@Model abstract class DialogPreferenceModel : PreferenceModel() {
+abstract class DialogPreferenceModel : PreferenceModel() {
 
     var dialogTitle by property("dialogTitle") { title }
     var dialogMessage by optionalProperty<String>("dialogMessage")
@@ -57,21 +56,21 @@ import com.ivianuu.list.annotations.Model
 }
 
 fun DialogPreferenceModel.dialogTitle(dialogTitleRes: Int) {
-    dialogTitle(context.getString(dialogTitleRes))
+    dialogTitle = context.getString(dialogTitleRes)
 }
 
 fun DialogPreferenceModel.dialogMessage(dialogMessageRes: Int) {
-    dialogTitle(context.getString(dialogMessageRes))
+    dialogTitle = context.getString(dialogMessageRes)
 }
 
 fun DialogPreferenceModel.dialogIcon(dialogIconRes: Int) {
-    dialogIcon(ContextCompat.getDrawable(context, dialogIconRes))
+    dialogIcon = ContextCompat.getDrawable(context, dialogIconRes)
 }
 
 fun DialogPreferenceModel.positiveButtonText(positiveButtonTextRes: Int) {
-    positiveButtonText(context.getString(positiveButtonTextRes))
+    positiveButtonText = context.getString(positiveButtonTextRes)
 }
 
 fun DialogPreferenceModel.negativeButtonText(negativeButtonTextRes: Int) {
-    negativeButtonText(context.getString(negativeButtonTextRes))
+    negativeButtonText = context.getString(negativeButtonTextRes)
 }

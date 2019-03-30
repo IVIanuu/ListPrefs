@@ -16,16 +16,15 @@
 
 package com.ivianuu.listprefs
 
-import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
+
 
 /**
  * A single item preference
  */
-@Model open class SingleItemListPreferenceModel : ListPreferenceModel() {
+open class SingleItemListPreferenceModel : ListPreferenceModel() {
 
     override fun showDialog() {
         val entries = entries ?: emptyList()
@@ -51,13 +50,7 @@ import com.ivianuu.list.annotations.Model
             .show()
     }
 
-}
+    companion object :
+        ListModelFactory<SingleItemListPreferenceModel>(::SingleItemListPreferenceModel)
 
-inline fun PreferenceModelController.singleItemListPreference(
-    block: SingleItemListPreferenceModel.() -> Unit
-): SingleItemListPreferenceModel {
-    return (this as ModelController).singleItemListPreference {
-        context(this@singleItemListPreference.context)
-        block.invoke(this)
-    }
 }

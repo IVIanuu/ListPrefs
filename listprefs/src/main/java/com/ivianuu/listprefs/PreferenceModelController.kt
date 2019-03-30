@@ -2,8 +2,9 @@ package com.ivianuu.listprefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.ivianuu.list.ListModelFactory
 import com.ivianuu.list.ModelController
-import com.ivianuu.list.addModelListener
+import com.ivianuu.list.addTo
 
 /**
  * Preference epoxy controller
@@ -31,6 +32,20 @@ abstract class PreferenceModelController(
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(prefsChangeListener)
     }
 
+    inline operator fun <T : PreferenceModel> ListModelFactory<T>.invoke(
+        body: T.() -> Unit
+    ): T = create().injectContext().apply(body).addTo(this@PreferenceModelController)
+
+    inline operator fun <T : PreferenceModel> T.invoke(body: T.() -> Unit): T =
+        injectContext().apply(body).addTo(this@PreferenceModelController)
+
+    inline fun <T : PreferenceModel> T.add(body: T.() -> Unit): T =
+        injectContext().apply(body).addTo(this@PreferenceModelController)
+
+    @PublishedApi
+    internal fun <T : PreferenceModel> T.injectContext(): T = apply {
+        context = this@PreferenceModelController.context
+    }
 }
 
 open class SimplePreferenceModelController(

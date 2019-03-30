@@ -16,22 +16,21 @@
 
 package com.ivianuu.listprefs
 
-import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsMultiChoice
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
+
 
 /**
  * A multi select list preference
  */
-@Model open class MultiSelectListPreferenceModel : ListPreferenceModel() {
+open class MultiSelectListPreferenceModel : ListPreferenceModel() {
 
     override fun showDialog() {
         val entries = entries ?: emptyList()
         val entryValues = entryValues ?: emptyList()
 
-        val currentValues = value as? MutableSet<String> ?: mutableSetOf()
+        val currentValues = value as? Set<String> ?: emptySet()
         val selectedIndices = currentValues
             .map(entryValues::indexOf)
             .filter { it != -1 }
@@ -56,13 +55,10 @@ import com.ivianuu.list.annotations.Model
             .show()
     }
 
+    companion object :
+        ListModelFactory<MultiSelectListPreferenceModel>(::MultiSelectListPreferenceModel)
 }
 
-inline fun PreferenceModelController.multiSelectListPreference(
-    block: MultiSelectListPreferenceModel.() -> Unit
-): MultiSelectListPreferenceModel {
-    return (this as ModelController).multiSelectListPreference {
-        context(this@multiSelectListPreference.context)
-        block.invoke(this)
-    }
+fun MultiSelectListPreferenceModel.defaultValue(vararg defaultValues: String) {
+    defaultValue = mutableSetOf(defaultValues)
 }

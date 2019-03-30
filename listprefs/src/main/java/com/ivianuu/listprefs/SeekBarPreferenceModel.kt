@@ -17,8 +17,7 @@
 package com.ivianuu.listprefs
 
 import android.widget.SeekBar
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
 import kotlinx.android.synthetic.main.item_preference_seekbar.seekbar
 import kotlinx.android.synthetic.main.item_preference_seekbar.seekbar_value
 import kotlin.math.round
@@ -26,7 +25,7 @@ import kotlin.math.round
 /**
  * Abstract seek bar preference model
  */
-@Model open class SeekBarPreferenceModel : PreferenceModel() {
+open class SeekBarPreferenceModel : PreferenceModel() {
 
     var min by property("min") { 0 }
     var max by property("max") { 0 }
@@ -87,13 +86,6 @@ import kotlin.math.round
         holder.seekbar_value.text = text
     }
 
-}
+    companion object : ListModelFactory<SeekBarPreferenceModel>(::SeekBarPreferenceModel)
 
-inline fun PreferenceModelController.seekBarPreference(
-    block: SeekBarPreferenceModel.() -> Unit
-): SeekBarPreferenceModel {
-    return (this as ModelController).seekBarPreference {
-        context(this@seekBarPreference.context)
-        block.invoke(this)
-    }
 }

@@ -26,24 +26,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.ivianuu.list.ListModel
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.*
 import com.ivianuu.list.common.LayoutContainerHolder
-import com.ivianuu.list.getProperty
-import com.ivianuu.list.id
-import com.ivianuu.list.setProperty
 import com.ivianuu.listprefs.internal.tryToResolveDefaultValue
 import kotlinx.android.synthetic.main.item_preference.icon
 import kotlinx.android.synthetic.main.item_preference.icon_frame
 import kotlinx.android.synthetic.main.item_preference.summary
 import kotlinx.android.synthetic.main.item_preference.title
-import java.util.*
 
 /**
  * Base preference
  */
-@Model open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
+open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
 
     var context by requiredProperty<Context>("context", doHash = false)
 
@@ -250,32 +244,24 @@ import java.util.*
         }
     }
 
+    companion object : ListModelFactory<PreferenceModel>(::PreferenceModel)
+
 }
 
-inline fun PreferenceModelController.preference(
-    block: PreferenceModel.() -> Unit
-): PreferenceModel {
-    return (this as ModelController).preference {
-        context(this@preference.context)
-        block.invoke(this)
-    }
-}
-
-fun PreferenceModel.key(key: String): PreferenceModel {
-    this.key = key
-    return this
+fun PreferenceModel.key(keyRes: Int) {
+    key = context.getString(keyRes)
 }
 
 fun PreferenceModel.title(titleRes: Int) {
-    title(context.getString(titleRes))
+    title = context.getString(titleRes)
 }
 
 fun PreferenceModel.summary(summaryRes: Int) {
-    summary(context.getString(summaryRes))
+    summary = context.getString(summaryRes)
 }
 
 fun PreferenceModel.icon(iconRes: Int) {
-    icon(ContextCompat.getDrawable(context, iconRes))
+    icon = ContextCompat.getDrawable(context, iconRes)
 }
 
 fun PreferenceModel.dependency(
@@ -292,7 +278,7 @@ fun PreferenceModel.dependency(dependency: PreferenceModel.Dependency) {
 
 @JvmName("changeListenerTyped")
 inline fun <reified T> PreferenceModel.onChange(crossinline changeListener: (preference: PreferenceModel, newValue: T) -> Boolean) {
-    onChange { preference: PreferenceModel, newValue: Any? ->
+    onChange = { preference: PreferenceModel, newValue: Any? ->
         changeListener(
             preference,
             newValue as T
@@ -300,13 +286,15 @@ inline fun <reified T> PreferenceModel.onChange(crossinline changeListener: (pre
     }
 }
 
-fun PreferenceModel.onClickIntent(intent: (PreferenceModel) -> Intent) =
-    onClick {
+fun PreferenceModel.onClickIntent(intent: (PreferenceModel) -> Intent) {
+    onClick = {
         it.context.startActivity(intent(it))
         true
     }
+}
 
-fun PreferenceModel.onClickUrl(url: (PreferenceModel) -> String) =
+fun PreferenceModel.onClickUrl(url: (PreferenceModel) -> String) {
     onClickIntent {
         Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url(it)) }
     }
+}

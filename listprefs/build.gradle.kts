@@ -17,21 +17,17 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
 }
 
 apply(from = "https://raw.githubusercontent.com/IVIanuu/gradle-scripts/master/android-build-lib.gradle")
 apply(from = "https://raw.githubusercontent.com/IVIanuu/gradle-scripts/master/kt-android-ext.gradle")
-apply(from = "https://raw.githubusercontent.com/IVIanuu/gradle-scripts/master/kt-kapt.gradle")
 apply(from = "https://raw.githubusercontent.com/IVIanuu/gradle-scripts/master/mvn-publish.gradle")
 
 dependencies {
     api(Deps.androidxAppCompat)
     api(Deps.constraintLayout)
     api(Deps.list)
-    api(Deps.listAnnotations)
     api(Deps.listCommon)
-    kapt(Deps.listCompiler)
     api(Deps.kotlinStdLib)
     api(Deps.materialComponents)
     api(Deps.materialDialogs)

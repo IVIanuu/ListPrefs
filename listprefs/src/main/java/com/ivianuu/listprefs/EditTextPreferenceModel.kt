@@ -16,16 +16,15 @@
 
 package com.ivianuu.listprefs
 
-import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
+
 
 /**
  * A edit text preference
  */
-@Model open class EditTextPreferenceModel : DialogPreferenceModel() {
+open class EditTextPreferenceModel : DialogPreferenceModel() {
 
     var dialogHint by optionalProperty<String>("dialogHint")
 
@@ -45,13 +44,5 @@ import com.ivianuu.list.annotations.Model
             .show()
     }
 
-}
-
-inline fun PreferenceModelController.editTextPreference(
-    block: EditTextPreferenceModel.() -> Unit
-): EditTextPreferenceModel {
-    return (this as ModelController).editTextPreference {
-        context(this@editTextPreference.context)
-        block.invoke(this)
-    }
+    companion object : ListModelFactory<EditTextPreferenceModel>(::EditTextPreferenceModel)
 }

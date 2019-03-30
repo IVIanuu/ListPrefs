@@ -16,30 +16,26 @@
 
 package com.ivianuu.listprefs
 
-import com.ivianuu.list.annotations.Model
-
 /**
  * A list preference model
  */
-@Model abstract class ListPreferenceModel : DialogPreferenceModel() {
+abstract class ListPreferenceModel : DialogPreferenceModel() {
     var entries by optionalProperty<List<String>>("entries")
     var entryValues by optionalProperty<List<String>>("entryValues")
 }
 
 fun ListPreferenceModel.entries(entriesRes: Int) {
-    entries(context.resources.getStringArray(entriesRes).toList())
+    entries = context.resources.getStringArray(entriesRes).toList()
 }
 
-fun ListPreferenceModel.entries(vararg entries: String): ListPreferenceModel {
-    entries(entries.toList())
-    return this
+fun ListPreferenceModel.entries(vararg entries: String) {
+    this.entries = entries.toList()
 }
 
 fun ListPreferenceModel.entryValues(entryValuesRes: Int) {
-    entryValues(context.resources.getStringArray(entryValuesRes).toList())
+    entryValues = context.resources.getStringArray(entryValuesRes).toList()
 }
 
-fun ListPreferenceModel.entryValues(vararg entryValues: String): ListPreferenceModel {
-    entryValues(entryValues.toList())
-    return this
+fun ListPreferenceModel.entryValues(vararg entryValues: String) {
+    this.entryValues = entryValues.toList()
 }

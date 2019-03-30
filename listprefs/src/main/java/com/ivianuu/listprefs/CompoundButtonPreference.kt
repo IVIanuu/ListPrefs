@@ -17,12 +17,12 @@
 package com.ivianuu.listprefs
 
 import android.widget.CompoundButton
-import com.ivianuu.list.annotations.Model
+
 
 /**
  * A preference for compound buttons
  */
-@Model abstract class CompoundButtonPreferenceModel : PreferenceModel() {
+abstract class CompoundButtonPreferenceModel : PreferenceModel() {
 
     protected abstract val PreferenceModel.Holder.compoundButton: CompoundButton?
 

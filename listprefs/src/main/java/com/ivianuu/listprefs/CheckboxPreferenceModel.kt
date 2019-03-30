@@ -16,16 +16,14 @@
 
 package com.ivianuu.listprefs
 
-import android.content.Context
 import android.widget.CompoundButton
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
 import kotlinx.android.synthetic.main.widget_preference_checkbox.checkbox
 
 /**
  * A check box preference
  */
-@Model open class CheckboxPreferenceModel : CompoundButtonPreferenceModel() {
+open class CheckboxPreferenceModel : CompoundButtonPreferenceModel() {
 
     override val Holder.compoundButton: CompoundButton?
         get() = checkbox
@@ -34,13 +32,5 @@ import kotlinx.android.synthetic.main.widget_preference_checkbox.checkbox
         widgetLayoutRes = R.layout.widget_preference_checkbox
     }
 
-}
-
-inline fun PreferenceModelController.checkboxPreference(
-    block: CheckboxPreferenceModel.() -> Unit
-): CheckboxPreferenceModel {
-    return (this as ModelController).checkboxPreference {
-        context(this@checkboxPreference.context)
-        block.invoke(this)
-    }
+    companion object : ListModelFactory<CheckboxPreferenceModel>(::CheckboxPreferenceModel)
 }

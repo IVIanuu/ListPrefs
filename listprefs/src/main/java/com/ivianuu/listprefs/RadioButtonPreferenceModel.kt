@@ -1,15 +1,13 @@
 package com.ivianuu.listprefs
 
-import android.content.Context
 import android.widget.CompoundButton
-import com.ivianuu.list.ModelController
-import com.ivianuu.list.annotations.Model
+import com.ivianuu.list.ListModelFactory
 import kotlinx.android.synthetic.main.widget_preference_radio.radio
 
 /**
  * A radio button preference
  */
-@Model open class RadioButtonPreferenceModel : CompoundButtonPreferenceModel() {
+open class RadioButtonPreferenceModel : CompoundButtonPreferenceModel() {
 
     override val Holder.compoundButton: CompoundButton?
         get() = radio
@@ -18,13 +16,6 @@ import kotlinx.android.synthetic.main.widget_preference_radio.radio
         widgetLayoutRes = R.layout.widget_preference_radio
     }
 
-}
+    companion object : ListModelFactory<EditTextPreferenceModel>(::EditTextPreferenceModel)
 
-inline fun PreferenceModelController.radioButtonPreference(
-    block: RadioButtonPreferenceModel.() -> Unit
-): RadioButtonPreferenceModel {
-    return (this as ModelController).radioButtonPreference {
-        context(this@radioButtonPreference.context)
-        block.invoke(this)
-    }
 }
