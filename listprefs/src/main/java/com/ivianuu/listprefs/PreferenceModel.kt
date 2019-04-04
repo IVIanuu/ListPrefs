@@ -86,40 +86,41 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
     final override val viewType: Int
         get() = layoutRes + widgetLayoutRes
 
+    protected val viewsShouldBeEnabled: Boolean get() = enabled && allowedByDependencies
+
     override fun bind(holder: Holder) {
         super.bind(holder)
-
-        val enabled = enabled && allowedByDependencies
 
         holder.title?.let {
             it.text = title
             it.visibility = if (title != null) View.VISIBLE else View.GONE
-            it.isEnabled = enabled
+            it.isEnabled = viewsShouldBeEnabled
         }
 
         holder.summary?.let {
             it.text = summary
             it.visibility = if (summary != null) View.VISIBLE else View.GONE
-            it.isEnabled = enabled
+            it.isEnabled = viewsShouldBeEnabled
         }
 
         holder.icon?.let {
             it.setImageDrawable(icon)
-            it.isEnabled = enabled
+            it.isEnabled = viewsShouldBeEnabled
         }
 
         holder.icon_frame?.let {
             it.visibility = if (icon != null || preserveIconSpace) View.VISIBLE else View.GONE
         }
 
-        holder.widget_frame?.let {
-            (0 until it.childCount)
-                .map(it::getChildAt)
-                .forEach { it.isEnabled = enabled }
+        holder.widget_frame?.let { widgetFrame ->
+            widgetFrame.isEnabled = viewsShouldBeEnabled
+            (0 until widgetFrame.childCount)
+                .map(widgetFrame::getChildAt)
+                .forEach { it.isEnabled = viewsShouldBeEnabled }
         }
 
         holder.containerView.apply {
-            isEnabled = enabled
+            isEnabled = viewsShouldBeEnabled
             isClickable = clickable
 
             if (clickable) {
