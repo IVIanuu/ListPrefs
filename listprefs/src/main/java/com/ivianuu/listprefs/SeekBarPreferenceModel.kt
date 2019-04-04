@@ -31,7 +31,10 @@ open class SeekBarPreferenceModel : PreferenceModel() {
     var max by property("max") { 0 }
     var incValue by property("incValue") { 1 }
 
-    var valueTextProvider by optionalProperty<(Int) -> String>("valueTextProvider", doHash = false)
+    var valueTextProvider by optionalProperty<ValueTextProvider>(
+        "valueTextProvider",
+        doHash = false
+    )
 
     private var internalValue = 0
 
@@ -90,3 +93,5 @@ open class SeekBarPreferenceModel : PreferenceModel() {
     companion object : ListModelFactory<SeekBarPreferenceModel>(::SeekBarPreferenceModel)
 
 }
+
+typealias ValueTextProvider = (value: Int) -> String

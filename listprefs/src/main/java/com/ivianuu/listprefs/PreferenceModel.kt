@@ -58,8 +58,8 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
         dependencies.all { it.isOk(sharedPreferences) }
     }
 
-    var onClick by optionalProperty<(preference: PreferenceModel) -> Boolean>("onClick", doHash = false)
-    var onChange by optionalProperty<(preference: PreferenceModel, newValue: Any?) -> Boolean>("onChange", doHash = false)
+    var onClick by optionalProperty<PreferenceClickListener>("onClick", doHash = false)
+    var onChange by optionalProperty<PreferenceChangeListener>("onChange", doHash = false)
     var sharedPreferences: SharedPreferences by property("sharedPreferences", doHash = false) {
         if (sharedPreferencesName != null) {
             context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
@@ -289,3 +289,6 @@ fun PreferenceModel.onClickUrl(url: (PreferenceModel) -> String) {
         Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url(it)) }
     }
 }
+
+typealias PreferenceClickListener = (preference: PreferenceModel) -> Boolean
+typealias PreferenceChangeListener = (preference: PreferenceModel, newValue: Any?) -> Boolean
