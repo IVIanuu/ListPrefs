@@ -43,6 +43,7 @@ open class SeekBarPreferenceModel : PreferenceModel() {
         super.bind(holder)
         internalValue = value as? Int ?: 0
 
+        holder.seekbar.isEnabled = allowedByDependencies && enabled
         holder.seekbar.max = max - min
         holder.seekbar.progress = internalValue - min
 

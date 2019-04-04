@@ -29,10 +29,7 @@ import androidx.core.content.ContextCompat
 import com.ivianuu.list.*
 import com.ivianuu.list.common.LayoutContainerHolder
 import com.ivianuu.listprefs.internal.tryToResolveDefaultValue
-import kotlinx.android.synthetic.main.item_preference.icon
-import kotlinx.android.synthetic.main.item_preference.icon_frame
-import kotlinx.android.synthetic.main.item_preference.summary
-import kotlinx.android.synthetic.main.item_preference.title
+import kotlinx.android.synthetic.main.item_preference.*
 
 /**
  * Base preference
@@ -92,29 +89,37 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
     override fun bind(holder: Holder) {
         super.bind(holder)
 
+        val enabled = enabled && allowedByDependencies
+
         holder.title?.let {
             it.text = title
             it.visibility = if (title != null) View.VISIBLE else View.GONE
+            it.isEnabled = enabled
         }
 
         holder.summary?.let {
             it.text = summary
             it.visibility = if (summary != null) View.VISIBLE else View.GONE
+            it.isEnabled = enabled
         }
 
         holder.icon?.let {
             it.setImageDrawable(icon)
+            it.isEnabled = enabled
         }
 
         holder.icon_frame?.let {
             it.visibility = if (icon != null || preserveIconSpace) View.VISIBLE else View.GONE
         }
 
-        holder.containerView.apply {
-            val enabled = enabled && allowedByDependencies
-            isEnabled = enabled
-            alpha = if (enabled) 1f else 0.5f
+        holder.widget_frame?.let {
+            (0 until it.childCount)
+                .map(it::getChildAt)
+                .forEach { it.isEnabled = enabled }
+        }
 
+        holder.containerView.apply {
+            isEnabled = enabled
             isClickable = clickable
 
             if (clickable) {
@@ -128,21 +133,6 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
             } else {
                 setOnClickListener(null)
             }
-        }
-    }
-
-    override fun unbind(holder: Holder) {
-        super.unbind(holder)
-
-        with(holder) {
-            title?.text = null
-            summary?.text = null
-            icon?.setImageDrawable(null)
-            icon_frame?.visibility = View.VISIBLE
-            containerView.isEnabled = true
-            containerView.alpha = 1f
-            containerView.isClickable = true
-            containerView.setOnClickListener(null)
         }
     }
 
