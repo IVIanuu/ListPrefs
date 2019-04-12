@@ -18,15 +18,15 @@ package com.ivianuu.listprefs
 
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
-import com.ivianuu.list.ListModelFactory
+import com.ivianuu.list.ItemFactory
 
 
 /**
  * A edit text preference
  */
-open class EditTextPreferenceModel : DialogPreferenceModel() {
+open class EditTextPreferenceItem : DialogPreferenceItem() {
 
-    var dialogHint by optionalProperty<String>("dialogHint")
+    var dialogHint by optionalProperty<String>()
 
     override fun showDialog() {
         val prefill = value as? String ?: ""
@@ -44,5 +44,5 @@ open class EditTextPreferenceModel : DialogPreferenceModel() {
             .show()
     }
 
-    companion object : ListModelFactory<EditTextPreferenceModel>(::EditTextPreferenceModel)
+    companion object : ItemFactory<EditTextPreferenceItem>(::EditTextPreferenceItem)
 }

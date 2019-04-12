@@ -14,7 +14,7 @@ object Build {
 object Publishing {
     const val groupId = "com.ivianuu.listprefs"
     const val vcsUrl = "https://github.com/IVIanuu/list-prefs"
-    const val version = "${Build.versionName}-dev-7"
+    const val version = "${Build.versionName}-dev-8"
 }
 
 object Versions {
@@ -22,8 +22,8 @@ object Versions {
     const val androidxAppCompat = "1.0.2"
     const val bintray = "1.8.4"
     const val constraintLayout = "1.1.3"
-    const val kotlin = "1.3.21"
-    const val list = "0.0.1-dev-19"
+    const val kotlin = "1.3.30"
+    const val list = "0.0.1-dev-20"
     const val materialComponents = "1.1.0-alpha05"
     const val materialDialogs = "2.0.3"
     const val mavenGradle = "2.1"

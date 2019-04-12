@@ -22,9 +22,9 @@ import android.widget.CompoundButton
 /**
  * A preference for compound buttons
  */
-abstract class CompoundButtonPreferenceModel : PreferenceModel() {
+abstract class CompoundButtonPreferenceItem : PreferenceItem() {
 
-    protected abstract val PreferenceModel.Holder.compoundButton: CompoundButton?
+    protected abstract val PreferenceItem.Holder.compoundButton: CompoundButton?
 
     override fun bind(holder: Holder) {
         super.bind(holder)

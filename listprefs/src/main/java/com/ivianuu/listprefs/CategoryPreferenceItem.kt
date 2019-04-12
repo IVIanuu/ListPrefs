@@ -16,21 +16,18 @@
 
 package com.ivianuu.listprefs
 
-import android.widget.CompoundButton
-import com.ivianuu.list.ListModelFactory
-import kotlinx.android.synthetic.main.widget_preference_checkbox.checkbox
+import com.ivianuu.list.ItemFactory
+
 
 /**
- * A check box preference
+ * A category preference
  */
-open class CheckboxPreferenceModel : CompoundButtonPreferenceModel() {
-
-    override val Holder.compoundButton: CompoundButton?
-        get() = checkbox
+open class CategoryPreferenceItem : PreferenceItem() {
 
     init {
-        widgetLayoutRes = R.layout.widget_preference_checkbox
+        clickable = false
+        layoutRes = R.layout.item_preference_category
     }
 
-    companion object : ListModelFactory<CheckboxPreferenceModel>(::CheckboxPreferenceModel)
+    companion object : ItemFactory<CategoryPreferenceItem>(::CategoryPreferenceItem)
 }

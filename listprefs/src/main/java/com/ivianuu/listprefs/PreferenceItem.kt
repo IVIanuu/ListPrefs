@@ -26,41 +26,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.ivianuu.list.*
-import com.ivianuu.list.common.LayoutContainerHolder
+import com.ivianuu.list.Item
+import com.ivianuu.list.ItemFactory
+import com.ivianuu.list.common.KotlinHolder
 import com.ivianuu.listprefs.internal.tryToResolveDefaultValue
 import kotlinx.android.synthetic.main.item_preference.*
 
 /**
  * Base preference
  */
-open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
+open class PreferenceItem : Item<PreferenceItem.Holder>() {
 
-    var context by requiredProperty<Context>("context", doHash = false)
+    var context by requiredProperty<Context>(doHash = false)
 
-    var key: String
-        get() = getProperty("key")!!
-        set(value) {
-            setProperty("key", value)
-            id(value)
-        }
+    var key by idProperty<String>()
 
-    var title by optionalProperty<String>("title")
-    var summary  by optionalProperty<String>("summary")
-    var icon by optionalProperty<Drawable>("icon")
-    var preserveIconSpace by property("preserveIconSpace") { false }
-    var defaultValue by optionalProperty<Any?>("defaultValue")
-    var enabled by property("enabled") { true }
-    var clickable by property("clickable") { true }
+    var title by optionalProperty<String>()
+    var summary by optionalProperty<String>()
+    var icon by optionalProperty<Drawable>()
+    var preserveIconSpace by property { false }
+    var defaultValue by optionalProperty<Any?>()
+    var enabled by property { true }
+    var clickable by property { true }
 
-    var dependencies by property("dependencies") { mutableListOf<Dependency>() }
-    val allowedByDependencies by property("allowedByDependencies") {
+    var dependencies by property { mutableListOf<Dependency>() }
+    val allowedByDependencies by property {
         dependencies.all { it.isOk(sharedPreferences) }
     }
 
-    var onClick by optionalProperty<PreferenceClickListener>("onClick", doHash = false)
-    var onChange by optionalProperty<PreferenceChangeListener>("onChange", doHash = false)
-    var sharedPreferences: SharedPreferences by property("sharedPreferences", doHash = false) {
+    var onClick = PrefClicks()
+    var onChange = PrefChanges()
+    var sharedPreferences: SharedPreferences by property(doHash = false) {
         if (sharedPreferencesName != null) {
             context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
         } else {
@@ -125,8 +121,7 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
 
             if (clickable) {
                 setOnClickListener {
-                    val handled =
-                        onClick?.invoke(this@PreferenceModel) ?: false
+                    val handled = onClick.callback?.invoke() ?: false
                     if (!handled) {
                         onClick()
                     }
@@ -160,7 +155,7 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
     }
 
     protected fun callChangeListener(newValue: Any?): Boolean =
-        onChange?.invoke(this, newValue) ?: true
+        onChange.callback?.invoke(newValue) ?: true
 
     protected fun shouldPersist(): Boolean = persistent
 
@@ -221,7 +216,7 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
         }
     }
 
-    open class Holder : LayoutContainerHolder()
+    open class Holder : KotlinHolder()
 
     data class Dependency(
         val key: String,
@@ -235,60 +230,47 @@ open class PreferenceModel : ListModel<PreferenceModel.Holder>() {
         }
     }
 
-    companion object : ListModelFactory<PreferenceModel>(::PreferenceModel)
+    companion object : ItemFactory<PreferenceItem>(::PreferenceItem)
 
 }
 
-fun PreferenceModel.key(keyRes: Int) {
+fun PreferenceItem.key(keyRes: Int) {
     key = context.getString(keyRes)
 }
 
-fun PreferenceModel.title(titleRes: Int) {
+fun PreferenceItem.title(titleRes: Int) {
     title = context.getString(titleRes)
 }
 
-fun PreferenceModel.summary(summaryRes: Int) {
+fun PreferenceItem.summary(summaryRes: Int) {
     summary = context.getString(summaryRes)
 }
 
-fun PreferenceModel.icon(iconRes: Int) {
+fun PreferenceItem.icon(iconRes: Int) {
     icon = ContextCompat.getDrawable(context, iconRes)
 }
 
-fun PreferenceModel.dependency(
+fun PreferenceItem.dependency(
     key: String,
     value: Any?,
     defaultValue: Any? = null
 ) {
-    dependency(PreferenceModel.Dependency(key, value, defaultValue))
+    dependency(PreferenceItem.Dependency(key, value, defaultValue))
 }
 
-fun PreferenceModel.dependency(dependency: PreferenceModel.Dependency) {
+fun PreferenceItem.dependency(dependency: PreferenceItem.Dependency) {
     dependencies.add(dependency)
 }
 
-@JvmName("changeListenerTyped")
-inline fun <reified T> PreferenceModel.onChange(crossinline changeListener: (preference: PreferenceModel, newValue: T) -> Boolean) {
-    onChange = { preference: PreferenceModel, newValue: Any? ->
-        changeListener(
-            preference,
-            newValue as T
-        )
-    }
-}
-
-fun PreferenceModel.onClickIntent(intent: (PreferenceModel) -> Intent) {
-    onClick = {
-        it.context.startActivity(intent(it))
+fun PreferenceItem.onClickIntent(intent: () -> Intent) {
+    onClick {
+        context.startActivity(intent())
         true
     }
 }
 
-fun PreferenceModel.onClickUrl(url: (PreferenceModel) -> String) {
+fun PreferenceItem.onClickUrl(url: () -> String) {
     onClickIntent {
-        Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url(it)) }
+        Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url()) }
     }
 }
-
-typealias PreferenceClickListener = (preference: PreferenceModel) -> Boolean
-typealias PreferenceChangeListener = (preference: PreferenceModel, newValue: Any?) -> Boolean

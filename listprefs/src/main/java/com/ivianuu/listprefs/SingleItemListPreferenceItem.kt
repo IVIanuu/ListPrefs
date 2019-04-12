@@ -18,13 +18,13 @@ package com.ivianuu.listprefs
 
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
-import com.ivianuu.list.ListModelFactory
+import com.ivianuu.list.ItemFactory
 
 
 /**
  * A single item preference
  */
-open class SingleItemListPreferenceModel : ListPreferenceModel() {
+open class SingleItemListPreferenceItem : ListPreferenceItem() {
 
     override fun showDialog() {
         val entries = entries ?: emptyList()
@@ -51,6 +51,6 @@ open class SingleItemListPreferenceModel : ListPreferenceModel() {
     }
 
     companion object :
-        ListModelFactory<SingleItemListPreferenceModel>(::SingleItemListPreferenceModel)
+        ItemFactory<SingleItemListPreferenceItem>(::SingleItemListPreferenceItem)
 
 }

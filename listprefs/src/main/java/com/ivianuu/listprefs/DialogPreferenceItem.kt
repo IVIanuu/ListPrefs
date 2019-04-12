@@ -24,13 +24,13 @@ import com.afollestad.materialdialogs.MaterialDialog
 /**
  * A dialog preference
  */
-abstract class DialogPreferenceModel : PreferenceModel() {
+abstract class DialogPreferenceItem : PreferenceItem() {
 
-    var dialogTitle by property("dialogTitle") { title }
-    var dialogMessage by optionalProperty<String>("dialogMessage")
-    var dialogIcon by optionalProperty<Drawable>("dialogIcon")
-    var positiveButtonText by property("positiveButtonText") { context.getString(android.R.string.ok) }
-    var negativeButtonText by property("negativeButtonText") { context.getString(android.R.string.cancel) }
+    var dialogTitle by property { title }
+    var dialogMessage by optionalProperty<String>()
+    var dialogIcon by optionalProperty<Drawable>()
+    var positiveButtonText by property { context.getString(android.R.string.ok) }
+    var negativeButtonText by property { context.getString(android.R.string.cancel) }
 
     override fun onClick() {
         super.onClick()
@@ -55,22 +55,22 @@ abstract class DialogPreferenceModel : PreferenceModel() {
 
 }
 
-fun DialogPreferenceModel.dialogTitle(dialogTitleRes: Int) {
+fun DialogPreferenceItem.dialogTitle(dialogTitleRes: Int) {
     dialogTitle = context.getString(dialogTitleRes)
 }
 
-fun DialogPreferenceModel.dialogMessage(dialogMessageRes: Int) {
+fun DialogPreferenceItem.dialogMessage(dialogMessageRes: Int) {
     dialogTitle = context.getString(dialogMessageRes)
 }
 
-fun DialogPreferenceModel.dialogIcon(dialogIconRes: Int) {
+fun DialogPreferenceItem.dialogIcon(dialogIconRes: Int) {
     dialogIcon = ContextCompat.getDrawable(context, dialogIconRes)
 }
 
-fun DialogPreferenceModel.positiveButtonText(positiveButtonTextRes: Int) {
+fun DialogPreferenceItem.positiveButtonText(positiveButtonTextRes: Int) {
     positiveButtonText = context.getString(positiveButtonTextRes)
 }
 
-fun DialogPreferenceModel.negativeButtonText(negativeButtonTextRes: Int) {
+fun DialogPreferenceItem.negativeButtonText(negativeButtonTextRes: Int) {
     negativeButtonText = context.getString(negativeButtonTextRes)
 }

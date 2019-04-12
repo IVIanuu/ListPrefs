@@ -18,13 +18,13 @@ package com.ivianuu.listprefs
 
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsMultiChoice
-import com.ivianuu.list.ListModelFactory
+import com.ivianuu.list.ItemFactory
 
 
 /**
  * A multi select list preference
  */
-open class MultiSelectListPreferenceModel : ListPreferenceModel() {
+open class MultiSelectListPreferenceItem : ListPreferenceItem() {
 
     override fun showDialog() {
         val entries = entries ?: emptyList()
@@ -56,9 +56,9 @@ open class MultiSelectListPreferenceModel : ListPreferenceModel() {
     }
 
     companion object :
-        ListModelFactory<MultiSelectListPreferenceModel>(::MultiSelectListPreferenceModel)
+        ItemFactory<MultiSelectListPreferenceItem>(::MultiSelectListPreferenceItem)
 }
 
-fun MultiSelectListPreferenceModel.defaultValue(vararg defaultValues: String) {
+fun MultiSelectListPreferenceItem.defaultValue(vararg defaultValues: String) {
     defaultValue = mutableSetOf(defaultValues)
 }

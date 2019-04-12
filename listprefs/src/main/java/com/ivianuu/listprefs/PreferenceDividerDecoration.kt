@@ -6,7 +6,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.ivianuu.list.ModelViewHolder
+import com.ivianuu.list.ItemViewHolder
 
 /**
  * Divider decoration for preferences
@@ -65,7 +65,7 @@ class PreferenceDividerDecoration(context: Context) : RecyclerView.ItemDecoratio
 
         val isNextCategory = if (index < parent.childCount - 1) {
             val nextHolder = parent.getChildViewHolder(parent.getChildAt(index + 1))
-            nextHolder is ModelViewHolder && nextHolder.model is CategoryPreferenceModel
+            nextHolder is ItemViewHolder && nextHolder.item is CategoryPreferenceItem
         } else {
             false
         }
@@ -81,7 +81,7 @@ class PreferenceDividerDecoration(context: Context) : RecyclerView.ItemDecoratio
         val holder = parent.getChildViewHolder(view)
 
         val isCategory =
-            holder is ModelViewHolder && holder.model is CategoryPreferenceModel
+            holder is ItemViewHolder && holder.item is CategoryPreferenceItem
 
         if (isCategory) return false
 
@@ -89,7 +89,7 @@ class PreferenceDividerDecoration(context: Context) : RecyclerView.ItemDecoratio
 
         val isNextCategory = if (index < parent.childCount - 1) {
             val nextHolder = parent.getChildViewHolder(parent.getChildAt(index + 1))
-            nextHolder is ModelViewHolder && nextHolder.model is CategoryPreferenceModel
+            nextHolder is ItemViewHolder && nextHolder.item is CategoryPreferenceItem
         } else {
             false
         }

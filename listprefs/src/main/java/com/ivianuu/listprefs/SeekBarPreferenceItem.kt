@@ -17,24 +17,21 @@
 package com.ivianuu.listprefs
 
 import android.widget.SeekBar
-import com.ivianuu.list.ListModelFactory
+import com.ivianuu.list.ItemFactory
 import kotlinx.android.synthetic.main.item_preference_seekbar.seekbar
 import kotlinx.android.synthetic.main.item_preference_seekbar.seekbar_value
 import kotlin.math.round
 
 /**
- * Abstract seek bar preference model
+ * Abstract seek bar preference item
  */
-open class SeekBarPreferenceModel : PreferenceModel() {
+open class SeekBarPreferenceItem : PreferenceItem() {
 
-    var min by property("min") { 0 }
-    var max by property("max") { 0 }
-    var incValue by property("incValue") { 1 }
+    var min by property { 0 }
+    var max by property { 0 }
+    var incValue by property { 1 }
 
-    var valueTextProvider by optionalProperty<ValueTextProvider>(
-        "valueTextProvider",
-        doHash = false
-    )
+    var valueTextProvider by optionalProperty<ValueTextProvider>(doHash = false)
 
     private var internalValue = 0
 
@@ -90,7 +87,7 @@ open class SeekBarPreferenceModel : PreferenceModel() {
         holder.seekbar_value.text = text
     }
 
-    companion object : ListModelFactory<SeekBarPreferenceModel>(::SeekBarPreferenceModel)
+    companion object : ItemFactory<SeekBarPreferenceItem>(::SeekBarPreferenceItem)
 
 }
 

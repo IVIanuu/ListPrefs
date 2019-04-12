@@ -9,22 +9,21 @@ import kotlinx.android.synthetic.main.activity_main.list
 class MainActivity : AppCompatActivity() {
 
     private val controller by lazy {
-        preferenceModelController {
-
-            for (i in 1..1) {
-                CategoryPreferenceModel {
+        preferenceItemController {
+            for (i in 1..100) {
+                CategoryPreferenceItem {
                     key = "category_$i"
                     title = "Category $i"
                 }
 
-                SwitchPreferenceModel {
+                SwitchPreferenceItem {
                     key = "my_switch_$i"
                     title = "Switch"
                     summary = "Nice a switch"
                 }
 
                 if (sharedPreferences.getBoolean("my_switch_$i", false)) {
-                    EditTextPreferenceModel {
+                    EditTextPreferenceItem {
                         key = "my_edit_text_$i"
                         title = "Edit text"
                         summary = "Edit text"
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                PreferenceModel {
+                PreferenceItem {
                     key = "my_key_$i"
                     title = "Title"
                     summary = "This is a summary."
@@ -40,21 +39,21 @@ class MainActivity : AppCompatActivity() {
                     onClickUrl { "https://www.google.de/" }
                 }
 
-                CheckboxPreferenceModel {
+                CheckboxPreferenceItem {
                     key = "my_checkbox_$i"
                     title = "CheckBox"
                     summary = "Oh a checkbox"
                     dependency("my_switch_$i", true)
                 }
 
-                RadioButtonPreferenceModel {
+                RadioButtonPreferenceItem {
                     key = "my_radio_$i"
                     title = "Radio"
                     summary = "A radio button"
                     dependency("my_switch_$i", true)
                 }
 
-                SeekBarPreferenceModel {
+                SeekBarPreferenceItem {
                     key = "my_seekbar_$i"
                     title = "SeekBar"
                     max = 100
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                     dependency("my_switch_$i", true)
                 }
 
-                SingleItemListPreferenceModel {
+                SingleItemListPreferenceItem {
                     key = "single_item_list_$i"
                     title = "Single item list"
                     defaultValue = "1"
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                     dependency("my_switch_$i", true)
                 }
 
-                MultiSelectListPreferenceModel {
+                MultiSelectListPreferenceItem {
                     key = "multi_select_list_$i"
                     title = "Multi select list"
                     defaultValue("A", "B")
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                     dependency("my_switch_$i", true)
                 }
 
-                PreferenceModel {
+                PreferenceItem {
                     key = "my_key1_$i"
                     title = "Another Title"
                     summary = "This is another summary."
@@ -99,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = controller.adapter
 
-        controller.requestModelBuild()
+        controller.requestItemBuild()
     }
 
     override fun onStart() {

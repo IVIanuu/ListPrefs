@@ -17,25 +17,25 @@
 package com.ivianuu.listprefs
 
 /**
- * A list preference model
+ * A list preference item
  */
-abstract class ListPreferenceModel : DialogPreferenceModel() {
-    var entries by optionalProperty<List<String>>("entries")
-    var entryValues by optionalProperty<List<String>>("entryValues")
+abstract class ListPreferenceItem : DialogPreferenceItem() {
+    var entries by optionalProperty<List<String>>()
+    var entryValues by optionalProperty<List<String>>()
 }
 
-fun ListPreferenceModel.entries(entriesRes: Int) {
+fun ListPreferenceItem.entries(entriesRes: Int) {
     entries = context.resources.getStringArray(entriesRes).toList()
 }
 
-fun ListPreferenceModel.entries(vararg entries: String) {
+fun ListPreferenceItem.entries(vararg entries: String) {
     this.entries = entries.toList()
 }
 
-fun ListPreferenceModel.entryValues(entryValuesRes: Int) {
+fun ListPreferenceItem.entryValues(entryValuesRes: Int) {
     entryValues = context.resources.getStringArray(entryValuesRes).toList()
 }
 
-fun ListPreferenceModel.entryValues(vararg entryValues: String) {
+fun ListPreferenceItem.entryValues(vararg entryValues: String) {
     this.entryValues = entryValues.toList()
 }

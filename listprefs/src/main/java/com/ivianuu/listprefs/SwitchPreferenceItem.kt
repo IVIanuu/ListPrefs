@@ -17,13 +17,13 @@
 package com.ivianuu.listprefs
 
 import android.widget.CompoundButton
-import com.ivianuu.list.ListModelFactory
+import com.ivianuu.list.ItemFactory
 import kotlinx.android.synthetic.main.widget_preference_switch.switchWidget
 
 /**
  * A switch preference
  */
-open class SwitchPreferenceModel : CompoundButtonPreferenceModel() {
+open class SwitchPreferenceItem : CompoundButtonPreferenceItem() {
 
     override val Holder.compoundButton: CompoundButton?
         get() = switchWidget
@@ -32,6 +32,6 @@ open class SwitchPreferenceModel : CompoundButtonPreferenceModel() {
         widgetLayoutRes = R.layout.widget_preference_switch
     }
 
-    companion object : ListModelFactory<SwitchPreferenceModel>(::SwitchPreferenceModel)
+    companion object : ItemFactory<SwitchPreferenceItem>(::SwitchPreferenceItem)
 
 }
