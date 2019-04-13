@@ -27,8 +27,8 @@ import com.ivianuu.list.ItemFactory
 open class MultiSelectListPreferenceItem : ListPreferenceItem() {
 
     override fun showDialog() {
-        val entries = entries ?: emptyList()
-        val entryValues = entryValues ?: emptyList()
+        val entries = entries ?: emptyArray()
+        val entryValues = entryValues ?: emptyArray()
 
         val currentValues = value as? Set<String> ?: emptySet()
         val selectedIndices = currentValues
@@ -39,7 +39,7 @@ open class MultiSelectListPreferenceItem : ListPreferenceItem() {
         MaterialDialog(context)
             .applyDialogSettings()
             .listItemsMultiChoice(
-                items = entries,
+                items = entries.toList(),
                 initialSelection = selectedIndices,
                 allowEmptySelection = true
             ) { _, positions, _ ->

@@ -27,8 +27,8 @@ import com.ivianuu.list.ItemFactory
 open class SingleItemListPreferenceItem : ListPreferenceItem() {
 
     override fun showDialog() {
-        val entries = entries ?: emptyList()
-        val entryValues = entryValues ?: emptyList()
+        val entries = entries ?: emptyArray()
+        val entryValues = entryValues ?: emptyArray()
 
         val currentValue = value as? String ?: ""
         val selectedIndex = entryValues.indexOf(currentValue)
@@ -37,7 +37,7 @@ open class SingleItemListPreferenceItem : ListPreferenceItem() {
             .applyDialogSettings(applyPositiveButtonText = false)
             .listItemsSingleChoice(
                 initialSelection = selectedIndex,
-                items = entries,
+                items = entries.toList(),
                 waitForPositiveButton = false
             ) { dialog, position, _ ->
                 val newValue = entryValues[position]
