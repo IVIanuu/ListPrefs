@@ -25,7 +25,7 @@ import kotlin.math.round
 /**
  * Abstract seek bar preference item
  */
-open class SeekBarPreferenceItem : PreferenceItem() {
+open class SeekBarPreferenceItem : AbstractPreferenceItem<Int>() {
 
     var min by property { 0 }
     var max by property { 0 }
@@ -41,7 +41,7 @@ open class SeekBarPreferenceItem : PreferenceItem() {
 
     override fun bind(holder: Holder) {
         super.bind(holder)
-        internalValue = value as? Int ?: 0
+        internalValue = value ?: 0
 
         holder.seekbar.isEnabled = viewsShouldBeEnabled
         holder.seekbar.max = max - min

@@ -14,11 +14,11 @@ object Build {
 object Publishing {
     const val groupId = "com.ivianuu.listprefs"
     const val vcsUrl = "https://github.com/IVIanuu/list-prefs"
-    const val version = "${Build.versionName}-dev-11"
+    const val version = "${Build.versionName}-dev-12"
 }
 
 object Versions {
-    const val androidGradlePlugin = "3.3.0"
+    const val androidGradlePlugin = "3.4.0"
     const val androidxAppCompat = "1.1.0-alpha04"
     const val bintray = "1.8.4"
     const val constraintLayout = "2.0.0-alpha3"

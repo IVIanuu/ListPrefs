@@ -24,7 +24,7 @@ import com.ivianuu.list.ItemFactory
 /**
  * A single item preference
  */
-open class SingleItemListPreferenceItem : ListPreferenceItem() {
+open class SingleItemListPreferenceItem : ListPreferenceItem<String>() {
 
     override fun showDialog() {
         val entries = entries ?: emptyArray()

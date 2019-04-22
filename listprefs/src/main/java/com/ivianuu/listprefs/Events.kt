@@ -9,9 +9,9 @@ class PrefClicks : ItemEvents<() -> Boolean> {
     }
 }
 
-class PrefChanges : ItemEvents<(Any?) -> Boolean> {
-    internal var callback: ((Any?) -> Boolean)? = null
-    override fun setCallback(callback: (Any?) -> Boolean) {
+class PrefChanges<T> : ItemEvents<(T) -> Boolean> {
+    internal var callback: ((T) -> Boolean)? = null
+    override fun setCallback(callback: (T) -> Boolean) {
         this.callback = callback
     }
 }

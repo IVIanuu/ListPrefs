@@ -24,12 +24,12 @@ import com.ivianuu.list.ItemFactory
 /**
  * A edit text preference
  */
-open class EditTextPreferenceItem : DialogPreferenceItem() {
+open class EditTextPreferenceItem : DialogPreferenceItem<String>() {
 
     var dialogHint by optionalProperty<String>()
 
     override fun showDialog() {
-        val prefill = value as? String ?: ""
+        val prefill = value ?: ""
 
         MaterialDialog(context)
             .applyDialogSettings()

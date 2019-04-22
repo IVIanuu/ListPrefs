@@ -22,7 +22,7 @@ import com.ivianuu.list.ItemFactory
 /**
  * A category preference
  */
-open class CategoryPreferenceItem : PreferenceItem() {
+open class CategoryPreferenceItem : AbstractPreferenceItem<Nothing>() {
 
     init {
         clickable = false

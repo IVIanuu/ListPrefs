@@ -22,18 +22,18 @@ import android.widget.CompoundButton
 /**
  * A preference for compound buttons
  */
-abstract class CompoundButtonPreferenceItem : PreferenceItem() {
+abstract class CompoundButtonPreferenceItem : AbstractPreferenceItem<Boolean>() {
 
-    protected abstract val PreferenceItem.Holder.compoundButton: CompoundButton?
+    protected abstract val Holder.compoundButton: CompoundButton?
 
     override fun bind(holder: Holder) {
         super.bind(holder)
-        holder.compoundButton?.isChecked = value as? Boolean ?: false
+        holder.compoundButton?.isChecked = value ?: false
     }
 
     override fun onClick() {
         super.onClick()
-        val newValue = (value as? Boolean ?: false).not()
+        val newValue = (value ?: false).not()
         if (callChangeListener(newValue)) {
             persistBoolean(key, newValue)
         }

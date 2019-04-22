@@ -31,18 +31,18 @@ abstract class PreferenceItemController(
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(prefsChangeListener)
     }
 
-    inline operator fun <T : PreferenceItem> ItemFactory<T>.invoke(
+    inline operator fun <T : AbstractPreferenceItem<*>> ItemFactory<T>.invoke(
         body: T.() -> Unit
     ): T = create().injectContext().apply(body).addTo(this@PreferenceItemController)
 
-    inline operator fun <T : PreferenceItem> T.invoke(body: T.() -> Unit): T =
+    inline operator fun <T : AbstractPreferenceItem<*>> T.invoke(body: T.() -> Unit): T =
         injectContext().apply(body).addTo(this@PreferenceItemController)
 
-    inline fun <T : PreferenceItem> T.add(body: T.() -> Unit): T =
+    inline fun <T : AbstractPreferenceItem<*>> T.add(body: T.() -> Unit): T =
         injectContext().apply(body).addTo(this@PreferenceItemController)
 
     @PublishedApi
-    internal fun <T : PreferenceItem> T.injectContext(): T = apply {
+    internal fun <T : AbstractPreferenceItem<*>> T.injectContext(): T = apply {
         context = this@PreferenceItemController.context
     }
 }
