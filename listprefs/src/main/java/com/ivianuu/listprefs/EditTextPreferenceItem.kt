@@ -29,18 +29,12 @@ open class EditTextPreferenceItem : DialogPreferenceItem<String>() {
     var dialogHint by optionalProperty<String>()
 
     override fun showDialog() {
-        val prefill = value ?: ""
-
         MaterialDialog(context)
             .applyDialogSettings()
             .input(
-                hint = dialogHint ?: "",
-                prefill = prefill
-            ) { _, input ->
-                if (callChangeListener(input.toString())) {
-                    persistString(key, input.toString())
-                }
-            }
+                hint = dialogHint,
+                prefill = value
+            ) { _, input -> persistValue(input.toString()) }
             .show()
     }
 

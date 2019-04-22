@@ -66,7 +66,7 @@ abstract class AbstractPreferenceItem<T : Any> : Item<AbstractPreferenceItem.Hol
     var useCommit by property("useCommit") { false }
     var persistent by property("persistent") { true }
     var widgetLayoutRes by property("widgetLayoutRes") { 0 }
-    val value by property<T?>("value") {
+    val value by property("value") {
         if (persistent) {
             sharedPreferences.all[key] as? T ?: defaultValue
         } else if (!persistent) {
@@ -153,65 +153,26 @@ abstract class AbstractPreferenceItem<T : Any> : Item<AbstractPreferenceItem.Hol
     protected open fun onClick() {
     }
 
-    protected fun callChangeListener(newValue: T): Boolean =
-        onChange.callback?.invoke(newValue) ?: true
-
-    protected fun shouldPersist(): Boolean = persistent
-
+    @Suppress("UNCHECKED_CAST")
     @SuppressLint("ApplySharedPref")
-    protected fun editSharedPreferences(edit: SharedPreferences.Editor.() -> Unit) {
-        if (shouldPersist()) {
-            sharedPreferences.edit()
-                .also(edit)
-                .run {
-                    if (useCommit) {
-                        commit()
-                    } else {
-                        apply()
-                    }
+    protected fun persistValue(value: T) {
+        if (onChange.callback?.invoke(value) == true && persistent) {
+            sharedPreferences.edit().apply {
+                when (value) {
+                    is Boolean -> putBoolean(key, value)
+                    is Float -> putFloat(key, value)
+                    is Int -> putInt(key, value)
+                    is Long -> putLong(key, value)
+                    is String -> putString(key, value)
+                    is Set<*> -> putStringSet(key, value as Set<String>)
                 }
-        }
-    }
 
-    protected fun persistBoolean(key: String?, value: Boolean) {
-        if (shouldPersist()) {
-            if (key == null) throw IllegalArgumentException("key == null")
-            editSharedPreferences { putBoolean(key, value) }
-        }
-    }
-
-    protected fun persistFloat(key: String?, value: Float) {
-        if (shouldPersist()) {
-            if (key == null) throw IllegalArgumentException("key == null")
-            editSharedPreferences { putFloat(key, value) }
-        }
-    }
-
-    protected fun persistInt(key: String?, value: Int) {
-        if (shouldPersist()) {
-            if (key == null) throw IllegalArgumentException("key == null")
-            editSharedPreferences { putInt(key, value) }
-        }
-    }
-
-    protected fun persistLong(key: String?, value: Long) {
-        if (shouldPersist()) {
-            if (key == null) throw IllegalArgumentException("key == null")
-            editSharedPreferences { putLong(key, value) }
-        }
-    }
-
-    protected fun persistString(key: String?, value: String) {
-        if (shouldPersist()) {
-            if (key == null) throw IllegalArgumentException("key == null")
-            editSharedPreferences { putString(key, value) }
-        }
-    }
-
-    protected fun persistStringSet(key: String?, value: MutableSet<String>) {
-        if (shouldPersist()) {
-            if (key == null) throw IllegalArgumentException("key == null")
-            editSharedPreferences { putStringSet(key, value) }
+                if (useCommit) {
+                    commit()
+                } else {
+                    apply()
+                }
+            }
         }
     }
 
@@ -262,7 +223,7 @@ fun AbstractPreferenceItem<*>.dependency(dependency: AbstractPreferenceItem.Depe
 fun AbstractPreferenceItem<*>.onClickIntent(intent: () -> Intent) {
     onClick {
         context.startActivity(intent())
-        true
+        return@onClick true
     }
 }
 

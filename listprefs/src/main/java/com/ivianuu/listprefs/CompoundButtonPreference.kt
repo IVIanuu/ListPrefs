@@ -33,10 +33,7 @@ abstract class CompoundButtonPreferenceItem : AbstractPreferenceItem<Boolean>() 
 
     override fun onClick() {
         super.onClick()
-        val newValue = (value ?: false).not()
-        if (callChangeListener(newValue)) {
-            persistBoolean(key, newValue)
-        }
+        persistValue((value ?: false).not())
     }
 
 }

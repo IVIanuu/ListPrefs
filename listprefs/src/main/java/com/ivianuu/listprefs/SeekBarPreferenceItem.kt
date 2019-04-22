@@ -57,9 +57,7 @@ open class SeekBarPreferenceItem : AbstractPreferenceItem<Int>() {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                if (callChangeListener(internalValue)) {
-                    persistInt(key, internalValue)
-                }
+                persistValue(internalValue)
             }
         })
 

@@ -48,9 +48,7 @@ open class MultiSelectListPreferenceItem : ListPreferenceItem<Set<String>>() {
                     .map(String::toString)
                     .toMutableSet()
 
-                if (callChangeListener(newValue)) {
-                    persistStringSet(key, newValue)
-                }
+                persistValue(newValue)
             }
             .show()
     }
