@@ -19,23 +19,23 @@ package com.ivianuu.listprefs
 /**
  * A list preference item
  */
-abstract class ListPreferenceItem : DialogPreferenceItem() {
+abstract class ListPreferenceItem<T : Any> : DialogPreferenceItem<T>() {
     var entries by optionalProperty<Array<String>>()
     var entryValues by optionalProperty<Array<String>>()
 }
 
-fun ListPreferenceItem.entries(entriesRes: Int) {
+fun ListPreferenceItem<*>.entries(entriesRes: Int) {
     entries = context.resources.getStringArray(entriesRes)
 }
 
-fun ListPreferenceItem.entries(vararg entries: String) {
+fun ListPreferenceItem<*>.entries(vararg entries: String) {
     this.entries = entries as Array<String>
 }
 
-fun ListPreferenceItem.entryValues(entryValuesRes: Int) {
+fun ListPreferenceItem<*>.entryValues(entryValuesRes: Int) {
     entryValues = context.resources.getStringArray(entryValuesRes)
 }
 
-fun ListPreferenceItem.entryValues(vararg entryValues: String) {
+fun ListPreferenceItem<*>.entryValues(vararg entryValues: String) {
     this.entryValues = entryValues as Array<String>
 }

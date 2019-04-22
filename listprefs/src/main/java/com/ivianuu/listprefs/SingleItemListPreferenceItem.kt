@@ -24,14 +24,13 @@ import com.ivianuu.list.ItemFactory
 /**
  * A single item preference
  */
-open class SingleItemListPreferenceItem : ListPreferenceItem() {
+open class SingleItemListPreferenceItem : ListPreferenceItem<String>() {
 
     override fun showDialog() {
         val entries = entries ?: emptyArray()
         val entryValues = entryValues ?: emptyArray()
 
-        val currentValue = value as? String ?: ""
-        val selectedIndex = entryValues.indexOf(currentValue)
+        val selectedIndex = entryValues.indexOf(value)
 
         MaterialDialog(context)
             .applyDialogSettings(applyPositiveButtonText = false)
@@ -39,13 +38,9 @@ open class SingleItemListPreferenceItem : ListPreferenceItem() {
                 initialSelection = selectedIndex,
                 items = entries.toList(),
                 waitForPositiveButton = false
-            ) { dialog, position, _ ->
+            ) { _, position, _ ->
                 val newValue = entryValues[position]
-                if (callChangeListener(newValue)) {
-                    persistString(key, newValue)
-                }
-
-                dialog.dismiss()
+                persistValue(newValue)
             }
             .show()
     }

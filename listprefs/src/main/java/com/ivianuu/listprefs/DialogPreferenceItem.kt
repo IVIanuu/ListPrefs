@@ -24,7 +24,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 /**
  * A dialog preference
  */
-abstract class DialogPreferenceItem : PreferenceItem() {
+abstract class DialogPreferenceItem<T : Any> : AbstractPreferenceItem<T>() {
 
     var dialogTitle by property { title }
     var dialogMessage by optionalProperty<String>()
@@ -55,22 +55,22 @@ abstract class DialogPreferenceItem : PreferenceItem() {
 
 }
 
-fun DialogPreferenceItem.dialogTitle(dialogTitleRes: Int) {
+fun DialogPreferenceItem<*>.dialogTitle(dialogTitleRes: Int) {
     dialogTitle = context.getString(dialogTitleRes)
 }
 
-fun DialogPreferenceItem.dialogMessage(dialogMessageRes: Int) {
+fun DialogPreferenceItem<*>.dialogMessage(dialogMessageRes: Int) {
     dialogTitle = context.getString(dialogMessageRes)
 }
 
-fun DialogPreferenceItem.dialogIcon(dialogIconRes: Int) {
+fun DialogPreferenceItem<*>.dialogIcon(dialogIconRes: Int) {
     dialogIcon = ContextCompat.getDrawable(context, dialogIconRes)
 }
 
-fun DialogPreferenceItem.positiveButtonText(positiveButtonTextRes: Int) {
+fun DialogPreferenceItem<*>.positiveButtonText(positiveButtonTextRes: Int) {
     positiveButtonText = context.getString(positiveButtonTextRes)
 }
 
-fun DialogPreferenceItem.negativeButtonText(negativeButtonTextRes: Int) {
+fun DialogPreferenceItem<*>.negativeButtonText(negativeButtonTextRes: Int) {
     negativeButtonText = context.getString(negativeButtonTextRes)
 }

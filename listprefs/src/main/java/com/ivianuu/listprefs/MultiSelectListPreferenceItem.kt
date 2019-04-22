@@ -24,13 +24,13 @@ import com.ivianuu.list.ItemFactory
 /**
  * A multi select list preference
  */
-open class MultiSelectListPreferenceItem : ListPreferenceItem() {
+open class MultiSelectListPreferenceItem : ListPreferenceItem<Set<String>>() {
 
     override fun showDialog() {
         val entries = entries ?: emptyArray()
         val entryValues = entryValues ?: emptyArray()
 
-        val currentValues = value as? Set<String> ?: emptySet()
+        val currentValues = value ?: emptySet()
         val selectedIndices = currentValues
             .map(entryValues::indexOf)
             .filter { it != -1 }
@@ -48,9 +48,7 @@ open class MultiSelectListPreferenceItem : ListPreferenceItem() {
                     .map(String::toString)
                     .toMutableSet()
 
-                if (callChangeListener(newValue)) {
-                    persistStringSet(key, newValue)
-                }
+                persistValue(newValue)
             }
             .show()
     }
@@ -60,5 +58,5 @@ open class MultiSelectListPreferenceItem : ListPreferenceItem() {
 }
 
 fun MultiSelectListPreferenceItem.defaultValue(vararg defaultValues: String) {
-    defaultValue = mutableSetOf(defaultValues)
+    defaultValue = setOf(*defaultValues)
 }
