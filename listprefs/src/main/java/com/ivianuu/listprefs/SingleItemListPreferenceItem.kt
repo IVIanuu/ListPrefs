@@ -38,9 +38,10 @@ open class SingleItemListPreferenceItem : ListPreferenceItem<String>() {
                 initialSelection = selectedIndex,
                 items = entries.toList(),
                 waitForPositiveButton = false
-            ) { _, position, _ ->
+            ) { dialog, position, _ ->
                 val newValue = entryValues[position]
                 persistValue(newValue)
+                dialog.dismiss()
             }
             .show()
     }
