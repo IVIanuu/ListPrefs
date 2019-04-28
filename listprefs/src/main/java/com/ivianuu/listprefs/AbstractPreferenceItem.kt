@@ -110,7 +110,7 @@ abstract class AbstractPreferenceItem<T : Any> : Item<AbstractPreferenceItem.Hol
         holder.widget_frame?.let { widgetFrame ->
             widgetFrame.isEnabled = viewsShouldBeEnabled
             (0 until widgetFrame.childCount)
-                .map(widgetFrame::getChildAt)
+                .map { widgetFrame.getChildAt(it) }
                 .forEach { it.isEnabled = viewsShouldBeEnabled }
         }
 
@@ -156,7 +156,7 @@ abstract class AbstractPreferenceItem<T : Any> : Item<AbstractPreferenceItem.Hol
     @Suppress("UNCHECKED_CAST")
     @SuppressLint("ApplySharedPref")
     protected fun persistValue(value: T) {
-        if (onChange.callback?.invoke(value) == true && persistent) {
+        if (onChange.callback?.invoke(value) != false && persistent) {
             sharedPreferences.edit().apply {
                 when (value) {
                     is Boolean -> putBoolean(key, value)
