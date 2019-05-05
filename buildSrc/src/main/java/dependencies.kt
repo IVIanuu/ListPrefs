@@ -22,9 +22,9 @@ object Versions {
     const val androidxAppCompat = "1.1.0-alpha04"
     const val bintray = "1.8.4"
     const val constraintLayout = "2.0.0-alpha3"
-    const val kotlin = "1.3.30"
+    const val kotlin = "1.3.31"
     const val list = "0.0.1-dev-26"
-    const val materialComponents = "1.1.0-alpha05"
+    const val materialComponents = "1.1.0-alpha06"
     const val materialDialogs = "2.0.3"
     const val mavenGradle = "2.1"
 }

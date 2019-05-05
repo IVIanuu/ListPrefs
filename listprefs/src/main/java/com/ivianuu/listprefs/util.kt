@@ -1,4 +1,4 @@
-package com.ivianuu.listprefs.internal
+package com.ivianuu.listprefs
 
 internal fun Any?.tryToResolveDefaultValue(): Any? = when (this) {
     is Boolean -> false

@@ -28,7 +28,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.ivianuu.list.Item
 import com.ivianuu.list.common.KotlinHolder
-import com.ivianuu.listprefs.internal.tryToResolveDefaultValue
 import kotlinx.android.synthetic.main.item_preference.*
 
 /**
