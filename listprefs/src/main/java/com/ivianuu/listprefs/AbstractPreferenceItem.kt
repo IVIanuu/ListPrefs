@@ -52,8 +52,6 @@ abstract class AbstractPreferenceItem<T : Any> : Item<AbstractPreferenceItem.Hol
         dependencies.all { it.isOk(sharedPreferences) }
     }
 
-    var onClick = PrefClicks()
-    var onChange = PrefChanges<T>()
     var sharedPreferences: SharedPreferences by property(doHash = false) {
         if (sharedPreferencesName != null) {
             context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
@@ -74,6 +72,9 @@ abstract class AbstractPreferenceItem<T : Any> : Item<AbstractPreferenceItem.Hol
             null
         }
     }
+
+    val onClick = PrefClicks()
+    val onChange = PrefChanges<T>()
 
     final override var layoutRes = R.layout.item_preference
 
